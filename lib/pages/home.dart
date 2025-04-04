@@ -9,16 +9,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map out = {};
-  Object? parameters;
 
   @override
   Widget build(BuildContext context) {
-    parameters = ModalRoute.of(context)?.settings.arguments ?? {}; // Handle null case
-    out = parameters as Map; // Direct cast
-
+    out =  out.isNotEmpty ? out : (ModalRoute.of(context)?.settings.arguments as Map); // Handle null case
     String bg = out['isDay'] ? 'day.jpg' : 'night.jpg'; // Dynamic background
-
+    Color? bgcolor = out['isDay'] ? Color(0xFF1288C8) : Color(0xFF282761);
     return Scaffold(
+      backgroundColor: bgcolor,
       body: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -33,8 +31,18 @@ class _HomeState extends State<Home> {
             children: [
               SizedBox(height: 25),
               TextButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/choose_location');
+                onPressed: () async{
+                  dynamic result = await Navigator.pushNamed(context, '/choose_location');
+                  setState(() {
+                    out = {
+                      'time': result['time'],
+                      'location': result['location'],
+                      'flag': result['flag'],
+                      'd': result['d'],
+                      'day':result['day'],
+                      'isDay' : result['isDay'],
+                    };
+                  });
                 },
                 label: Text(
                   'Edit Location',

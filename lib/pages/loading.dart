@@ -10,18 +10,19 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-
   void setup() async {
-    WorldTime s1 = WorldTime(location: "Cancun" , Continent: "America" , city: "Cancun" , flags: "America" , d:"default",day: "default");
-    await s1.getdata();
-    Navigator.pushReplacementNamed(context, "/home",arguments: {
-      'location': s1.location,
-      'flag': s1.flags,
-      'time':s1.time,
-      'd': s1.d,
-      'day':s1.day,
-      'isDay' : s1.isDay,
-    });
+    WorldTime s1 = WorldTime(location: "Kolkata" , Continent: "Asia" , city: "Kolkata" , flags: "India" , d:"default",day: "default");
+    await s1.getData();
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, "/home", arguments: {
+        'location': s1.location,
+        'flag': s1.flags,
+        'time': s1.time,
+        'd': s1.d,
+        'day': s1.day,
+        'isDay': s1.isDay,
+      });
+    }
   }
 
   @override
